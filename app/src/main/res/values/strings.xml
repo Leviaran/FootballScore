@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FootBallClubV2</string>
+    <string name="prev_match">prev match</string>
+    <string name="next_match">next match</string>
+</resources>
