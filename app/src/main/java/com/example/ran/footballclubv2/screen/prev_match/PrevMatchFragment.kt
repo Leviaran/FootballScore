@@ -20,6 +20,7 @@ import com.example.ran.footballclubv2.R
 import com.example.ran.footballclubv2.common.ViewModel.Response
 import com.example.ran.footballclubv2.common.domain.model.EventFootball
 import com.example.ran.footballclubv2.common.domain.model.Events
+import com.example.ran.footballclubv2.screen.detail_match.DetailMatch
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -100,6 +101,11 @@ class PrevMatchFragment : Fragment() {
         val recycler = view?.findViewById<RecyclerView>(R.id.rv_prev_match)
         recycler?.adapter = PrevMatchAdapter(footballEvent?.events?.toMutableList() ?: list ) {
             Toast.makeText(context, it.dateEvent, Toast.LENGTH_SHORT).show()
+
+            fragmentManager?.beginTransaction()
+                    ?.replace(R.id.container, DetailMatch())
+                    ?.addToBackStack(null)
+                    ?.commit()
         }
 
     }

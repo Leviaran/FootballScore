@@ -9,4 +9,13 @@
     <item name="rv_prev_match" type="id"/>
     <item name="rv_pb_prev_match" type="id"/>
     <item name="tv_vs_item" type="id"/>
+
+    <!--Detail Fragment-->
+    
+    <item name="df_home_goal" type="id"/>
+    <item name="df_away_goal" type="id"/>
+
+
+
+
 </resources>

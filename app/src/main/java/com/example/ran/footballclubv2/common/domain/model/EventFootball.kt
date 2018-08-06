@@ -1,13 +1,16 @@
 package com.example.ran.footballclubv2.common.domain.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import java.util.*
 
 
 data class EventFootball (
         @Json(name = "events") val events: List<Events>
 )
-
+@Parcelize
 data class Events (
         @Json(name = "idEvent") val idEvent : String,
         @Json(name = "strEvent") val strEvent : String,
@@ -38,5 +41,11 @@ data class Events (
         @Json(name = "strAwayLineupMidfield") val strAwayLineupMidfield : String,
         @Json(name = "strAwayLineupForward") val strAwayLineupForward : String,
         @Json(name = "strAwayLineupSubstitutes") val strAwayLineupSubstitutes : String,
-        @Json(name = "strAwayFormation") val strAwayFormation : String
-)
+        @Json(name = "strAwayFormation") val strAwayFormation : String,
+
+        var strTeamHomeBadge : String,
+        var strTeamAwayBadge : String
+
+
+
+) : Parcelable
