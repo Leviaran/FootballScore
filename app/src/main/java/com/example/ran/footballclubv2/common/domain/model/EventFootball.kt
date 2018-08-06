@@ -1,43 +1,42 @@
 package com.example.ran.footballclubv2.common.domain.model
 
-import kotlinx.android.parcel.Parcelize
+import com.squareup.moshi.Json
 import java.util.*
 
 
 data class EventFootball (
-        var idEvent : String,
-        var strEvent : String,
+        @Json(name = "events") val events: List<Events>
+)
 
-        var strHomeTeam : String,
-        var strAwayTeam : String,
+data class Events (
+        @Json(name = "idEvent") val idEvent : String,
+        @Json(name = "strEvent") val strEvent : String,
 
-        var intHomeScore : String,
-        var intAwayScore : String,
+        @Json(name = "strHomeTeam") val strHomeTeam : String,
+        @Json(name = "strAwayTeam") val strAwayTeam : String,
 
-        var intHomeShots : Int,
-        var intAwayShots : Int,
+        @Json(name = "intHomeScore") val intHomeScore : String,
+        @Json(name = "intAwayScore")val intAwayScore : String,
 
-        var dateEvent : String,
-        var strDate : Date,
+        @Json(name = "intHomeShots") val intHomeShots : Int,
+        @Json(name = "intAwayShots") val intAwayShots : Int,
 
-        var strHomeGoalDetails : String,
-        var strHomeLineupGoalkeeper : String,
-        var strHomeLineupDefense : String,
-        var strHomeLineupMidfield : String,
-        var strHomeLineupForward : String,
-        var strHomeLineupSubstitutes : String,
-        var strHomeFormation : String,
+        @Json(name = "dateEvent") val dateEvent : String,
+        @Json(name = "strDate") val strDate : String,
 
-        var strAwayGoalDetails : String,
-        var strAwayLineupGoalkeeper : String,
-        var strAwayLineupDefense : String,
-        var strAwayLineupMidfield : String,
-        var strAwayLineupForward : String,
-        var strAwayLineupSubstitutes : String,
-        var strAwayFormation : String
+        @Json(name = "strHomeGoalDetails") val strHomeGoalDetails : String,
+        @Json(name = "strHomeLineupGoalkeeper") val strHomeLineupGoalkeeper : String,
+        @Json(name = "strHomeLineupDefense") val strHomeLineupDefense : String,
+        @Json(name = "strHomeLineupMidfield") val strHomeLineupMidfield : String,
+        @Json(name = "strHomeLineupForward") val strHomeLineupForward : String,
+        @Json(name = "strHomeLineupSubstitutes") val strHomeLineupSubstitutes : String,
+        @Json(name = "strHomeFormation") val strHomeFormation : String,
 
-
-
-
-
+        @Json(name = "strAwayGoalDetails") val strAwayGoalDetails : String,
+        @Json(name = "strAwayLineupGoalkeeper") val strAwayLineupGoalkeeper : String,
+        @Json(name = "strAwayLineupDefense") val strAwayLineupDefense : String,
+        @Json(name = "strAwayLineupMidfield") val strAwayLineupMidfield : String,
+        @Json(name = "strAwayLineupForward") val strAwayLineupForward : String,
+        @Json(name = "strAwayLineupSubstitutes") val strAwayLineupSubstitutes : String,
+        @Json(name = "strAwayFormation") val strAwayFormation : String
 )
