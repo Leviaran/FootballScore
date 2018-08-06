@@ -37,7 +37,7 @@ class PrevMatchFragment : Fragment() {
         fun newInstance(): PrevMatchFragment = PrevMatchFragment()
     }
 
-    val pb = view?.findViewById<ProgressBar>(R.id.rv_pb_prev_match)
+    lateinit var progressBar: ProgressBar
 
     @Inject
     lateinit var prevMatchViewModelFactory: PrevMatchViewModelFactory
@@ -64,7 +64,7 @@ class PrevMatchFragment : Fragment() {
         return UI {
             relativeLayout {
 
-                progressBar {
+                progressBar = progressBar {
                     id = R.id.rv_pb_prev_match
                     indeterminateDrawable.setColorFilter(ContextCompat
                             .getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN)
@@ -74,7 +74,7 @@ class PrevMatchFragment : Fragment() {
                 recyclerView {
                     id = R.id.rv_prev_match
                     layoutManager = LinearLayoutManager(context)
-                    addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(context).orientation))
+
                 }.lparams(matchParent, matchParent)
             }
         }.view
@@ -94,7 +94,7 @@ class PrevMatchFragment : Fragment() {
     private fun renderDataState(footballEvent : EventFootball?) {
         Timber.e("Yesss")
 
-        pb?.visibility = View.GONE
+        progressBar.visibility = View.GONE
         val list = mutableListOf<Events>()
 
         val recycler = view?.findViewById<RecyclerView>(R.id.rv_prev_match)
@@ -105,7 +105,8 @@ class PrevMatchFragment : Fragment() {
     }
 
     private fun renderErrorState() {
-        Timber.e("Errror")
+        Timber.e("Error")
+        progressBar.visibility = View.GONE
         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
     }
 
