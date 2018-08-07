@@ -6,6 +6,7 @@ import com.example.ran.footballclubv2.network.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 class App : Application(), HasSupportFragmentInjector {
@@ -20,6 +21,10 @@ class App : Application(), HasSupportFragmentInjector {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG){
+            Timber.plant(Timber.DebugTree())
+        }
 
         DaggerAppComponent
                 .builder()

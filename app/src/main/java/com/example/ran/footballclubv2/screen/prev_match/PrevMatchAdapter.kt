@@ -44,7 +44,7 @@ class PrevMatchAdapter
 
         fun bindItem(items : Events, listener: (Events) -> Unit) {
 
-            dateText.text = items.dateEvent.DateTransformator()
+            dateText.text = items.dateEvent?.DateTransformator()
 
             homeMatch.text = items.strHomeTeam
             homeScore.text = items.intHomeScore

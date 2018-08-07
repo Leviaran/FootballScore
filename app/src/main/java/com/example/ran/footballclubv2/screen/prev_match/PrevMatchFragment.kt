@@ -16,10 +16,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.example.ran.footballclubv2.MENU
 import com.example.ran.footballclubv2.R
 import com.example.ran.footballclubv2.common.ViewModel.Response
 import com.example.ran.footballclubv2.common.domain.model.EventFootball
 import com.example.ran.footballclubv2.common.domain.model.Events
+import com.example.ran.footballclubv2.screen.detail_match.DETAIL_EVENT
 import com.example.ran.footballclubv2.screen.detail_match.DetailMatch
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.Observable
@@ -39,6 +41,7 @@ class PrevMatchFragment : Fragment() {
     }
 
     lateinit var progressBar: ProgressBar
+    lateinit var menu : String
 
     @Inject
     lateinit var prevMatchViewModelFactory: PrevMatchViewModelFactory
@@ -54,10 +57,24 @@ class PrevMatchFragment : Fragment() {
 
         super.onCreate(savedInstanceState)
 
+        val bundle = arguments
+        when {
+            bundle != null -> {
+                menu = bundle.getString(MENU)
+                Timber.e("hasil Menu adalah ${menu}")
+            }
+
+        }
+
         prevMatchViewModel = ViewModelProviders.of(this, prevMatchViewModelFactory).get(PrevMatchViewModel::class.java)
 
         prevMatchViewModel.response().observe(this, Observer { response -> execute(response!!) })
-        prevMatchViewModel.loadDataFootball()
+        prevMatchViewModel.loadDataFootball(menu)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        prevMatchViewModel.loadDataFootball(menu)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,7 +100,7 @@ class PrevMatchFragment : Fragment() {
 
     private fun execute(response : Response) = when (response) {
         is Response.Loading -> renderLoadingState()
-        is Response.Success -> renderDataState(response.data)
+        is Response.Success -> renderDataState(response.data as EventFootball)
         is Response.Error -> renderErrorState()
     }
 
@@ -102,9 +119,15 @@ class PrevMatchFragment : Fragment() {
         recycler?.adapter = PrevMatchAdapter(footballEvent?.events?.toMutableList() ?: list ) {
             Toast.makeText(context, it.dateEvent, Toast.LENGTH_SHORT).show()
 
+            val fragment = DetailMatch.newInstance()
+            val bundle = Bundle()
+            bundle.putParcelable(DETAIL_EVENT, it)
+            fragment.arguments = bundle
+
+
             fragmentManager?.beginTransaction()
-                    ?.replace(R.id.container, DetailMatch())
-                    ?.addToBackStack(null)
+                    ?.replace(R.id.container, fragment, "Fragment")
+                    ?.addToBackStack("Fragment")
                     ?.commit()
         }
 
