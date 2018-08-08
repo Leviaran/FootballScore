@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -18,15 +17,10 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.ran.footballclubv2.R
 import com.example.ran.footballclubv2.common.ViewModel.Response
-import com.example.ran.footballclubv2.common.domain.model.EventFootball
 import com.example.ran.footballclubv2.common.domain.model.Events
 import com.example.ran.footballclubv2.common.domain.model.TeamDetail
-import com.example.ran.footballclubv2.local.Favorite
-import com.example.ran.footballclubv2.screen.prev_match.PrevMatchAdapter
-import com.example.ran.footballclubv2.screen.prev_match.PrevMatchFragment
 import com.example.ran.footballclubv2.utils.extensions.DateTransformator
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.notification_template_lines_media.view.*
 import com.example.ran.footballclubv2.local.database
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.*
@@ -156,7 +150,6 @@ class DetailMatch : Fragment() {
         favoriteState()
 
 
-
         return UI {
 
             swipeRefreshLayout = swipeRefreshLayout {
@@ -270,7 +263,8 @@ class DetailMatch : Fragment() {
                             }.lparams(){weight = 1f}
 
                             textView {
-                                id = R.id.df_away_goal
+//                                id = R.id.df_away_goal
+                                Timber.e("hasill away goal text, ${events?.strAwayGoalDetails}")
                                 text = events?.strAwayGoalDetails
                                 gravity = Gravity.END
                                 gravity = Gravity.RIGHT
@@ -476,10 +470,10 @@ class DetailMatch : Fragment() {
 
     private fun favoriteState(){
         context?.database?.use {
-            val result = select(Favorite.TABLE_FAVORITE)
+            val result = select(Events.TABLE_FAVORITE)
                     .whereArgs("(ID_EVENT = {event_id})",
                             "event_id" to "${events?.idEvent}" )
-            val favorite = result.parseList(classParser<Favorite>())
+            val favorite = result.parseList(classParser<Events>())
             Timber.e(favorite.size.toString())
             if (favorite.isNotEmpty()){
                 Timber.e("hasil parsing anko sqlite ${favorite.get(0).idEvent}dan ${events?.idEvent}")
@@ -501,7 +495,7 @@ class DetailMatch : Fragment() {
     private fun removeToFavorite(){
         try {
             context?.database?.use {
-                delete(Favorite.TABLE_FAVORITE, "(ID_EVENT = {id})",
+                delete(Events.TABLE_FAVORITE, "(ID_EVENT = {id})",
                         "id" to {events?.idEvent})
             }
         } catch (e : SQLiteConstraintException){
@@ -511,33 +505,32 @@ class DetailMatch : Fragment() {
 
     private fun addToFavorite(){
         try {
+            Timber.e("hasill away goal, ${events?.strAwayGoalDetails}")
             context?.database?.use {
                 insert(
-                        Favorite.TABLE_FAVORITE,
-                        Favorite.ID_EVENT to events?.idEvent,
-                        Favorite.HOME_TEAM to events?.strHomeTeam,
-                        Favorite.AWAY_TEAM to events?.strAwayTeam,
-                        Favorite.HOME_SCORE to events?.intHomeScore,
-                        Favorite.AWAY_SCORE to events?.intAwayScore,
-                        Favorite.HOME_SHOT to events?.intHomeShots,
-                        Favorite.AWAY_SHOT to events?.intAwayShots,
-                        Favorite.DATE_EVENT to events?.dateEvent,
-                        Favorite.HOME_GOAL_DETAIL to events?.strHomeGoalDetails,
-                        Favorite.HOME_LINEUP_GOALKEEPER to events?.strHomeLineupGoalkeeper,
-                        Favorite.HOME_LINEUP_DEFENCE to events?.strHomeLineupDefense,
-                        Favorite.HOME_LINEUP_MIDFIELD to events?.strHomeLineupMidfield,
-                        Favorite.HOME_LINEUP_FORWARD to events?.strHomeLineupForward,
-                        Favorite.HOME_LINEUP_SUBTITUTIES to events?.strHomeLineupSubstitutes,
-                        Favorite.HOME_FORMATION to events?.strHomeFormation,
-                        Favorite.HOME_BADGE to events?.strTeamHomeBadge,
-                        Favorite.AWAY_GOAL_DETAIL to events?.strAwayGoalDetails,
-                        Favorite.AWAY_LINEUP_GOALKEEPER to events?.strAwayLineupGoalkeeper,
-                        Favorite.AWAY_LINEUP_DEFENCE to events?.strAwayLineupDefense,
-                        Favorite.AWAY_LINEUP_MIDFIELD to events?.strAwayLineupMidfield,
-                        Favorite.AWAY_LINEUP_FORWARD to events?.strAwayLineupForward,
-                        Favorite.AWAY_LINEUP_SUBTITUTIES to events?.strAwayLineupSubstitutes,
-                        Favorite.AWAY_FORMATION to events?.strAwayFormation,
-                        Favorite.AWAY_BADGE to events?.strTeamAwayBadge
+                        Events.TABLE_FAVORITE,
+                        Events.ID_EVENT to events?.idEvent,
+                        Events.HOME_TEAM to events?.strHomeTeam,
+                        Events.AWAY_TEAM to events?.strAwayTeam,
+                        Events.HOME_SCORE to events?.intHomeScore,
+                        Events.AWAY_SCORE to events?.intAwayScore,
+                        Events.HOME_SHOT to events?.intHomeShots,
+                        Events.AWAY_SHOT to events?.intAwayShots,
+                        Events.DATE_EVENT to events?.dateEvent,
+                        Events.HOME_GOAL_DETAIL to events?.strHomeGoalDetails,
+                        Events.HOME_LINEUP_GOALKEEPER to events?.strHomeLineupGoalkeeper,
+                        Events.HOME_LINEUP_DEFENCE to events?.strHomeLineupDefense,
+                        Events.HOME_LINEUP_MIDFIELD to events?.strHomeLineupMidfield,
+                        Events.HOME_LINEUP_FORWARD to events?.strHomeLineupForward,
+                        Events.HOME_LINEUP_SUBTITUTIES to events?.strHomeLineupSubstitutes,
+                        Events.HOME_BADGE to events?.strTeamHomeBadge,
+                        Events.AWAY_GOAL_DETAIL to events?.strAwayGoalDetails,
+                        Events.AWAY_LINEUP_GOALKEEPER to events?.strAwayLineupGoalkeeper,
+                        Events.AWAY_LINEUP_DEFENCE to events?.strAwayLineupDefense,
+                        Events.AWAY_LINEUP_MIDFIELD to events?.strAwayLineupMidfield,
+                        Events.AWAY_LINEUP_FORWARD to events?.strAwayLineupForward,
+                        Events.AWAY_LINEUP_SUBTITUTIES to events?.strAwayLineupSubstitutes,
+                        Events.AWAY_BADGE to events?.strTeamAwayBadge
                 )
 
             }

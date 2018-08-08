@@ -8,7 +8,7 @@ import com.example.ran.footballclubv2.PREV_MATCH
 import com.example.ran.footballclubv2.common.ViewModel.Response
 import com.example.ran.footballclubv2.common.domain.interactor.FootaballInteractor
 import com.example.ran.footballclubv2.common.domain.interactor.FootballUseCase
-import com.example.ran.footballclubv2.local.Favorite
+import com.example.ran.footballclubv2.common.domain.model.Events
 import com.example.ran.footballclubv2.local.database
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -64,8 +64,9 @@ class PrevMatchViewModel @Inject constructor(
             }
             else -> {
                 context?.database?.use {
-                    val result = select(Favorite.TABLE_FAVORITE)
-                    val favorite = result.parseList(classParser<Favorite>())
+                    val result = select(Events.TABLE_FAVORITE)
+                    val favorite = result.parseList(classParser<Events>())
+                    Timber.e("hasil parsing, ${favorite.get(0).toString()}")
                     response.value = Response.Success(favorite)
                 }
             }

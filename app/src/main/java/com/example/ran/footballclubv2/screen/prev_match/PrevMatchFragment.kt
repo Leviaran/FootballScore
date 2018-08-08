@@ -8,7 +8,6 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -21,18 +20,13 @@ import com.example.ran.footballclubv2.R
 import com.example.ran.footballclubv2.common.ViewModel.Response
 import com.example.ran.footballclubv2.common.domain.model.EventFootball
 import com.example.ran.footballclubv2.common.domain.model.Events
-import com.example.ran.footballclubv2.local.Favorite
 import com.example.ran.footballclubv2.screen.detail_match.DETAIL_EVENT
 import com.example.ran.footballclubv2.screen.detail_match.DetailMatch
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_prev_match.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PrevMatchFragment : Fragment() {
@@ -114,14 +108,13 @@ class PrevMatchFragment : Fragment() {
         Timber.e("Yesss")
         val recycler = view?.findViewById<RecyclerView>(R.id.rv_prev_match)
         if (menu == FAVORITE){
-            val footballEvent = data as List<Favorite>
+            val footballEvent = data as List<Events>
             recycler?.adapter = PrevMatchAdapter(footballEvent.toMutableList(), FAVORITE) {
-                val temp = it as Favorite
-                Toast.makeText(context, temp.dateEvent, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, it.dateEvent, Toast.LENGTH_SHORT).show()
 
                 val fragment = DetailMatch.newInstance()
                 val bundle = Bundle()
-                bundle.putParcelable(DETAIL_EVENT, temp)
+                bundle.putParcelable(DETAIL_EVENT, it)
                 fragment.arguments = bundle
 
 
@@ -133,9 +126,7 @@ class PrevMatchFragment : Fragment() {
         } else {
             val footballEvent = data as EventFootball
             recycler?.adapter = PrevMatchAdapter(footballEvent?.events?.toMutableList(), PREV_MATCH) {
-                val temp = it as Events
                 Toast.makeText(context, it.dateEvent, Toast.LENGTH_SHORT).show()
-
                 val fragment = DetailMatch.newInstance()
                 val bundle = Bundle()
                 bundle.putParcelable(DETAIL_EVENT, it)
