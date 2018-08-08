@@ -22,6 +22,9 @@ import com.example.ran.footballclubv2.common.domain.model.TeamDetail
 import com.example.ran.footballclubv2.local.database
 import com.example.ran.footballclubv2.utils.extensions.DateTransformator
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
@@ -146,9 +149,12 @@ class DetailMatch : Fragment() {
 
         detailMatchViewModel.response().observe(this, Observer { response -> execute(response!!) })
 
-        detailMatchViewModel.loadImage(events?.strHomeTeam)
+        launch(UI) {
+            detailMatchViewModel.loadImage(events?.strHomeTeam)
+            detailMatchViewModel.loadImage(events?.strAwayTeam)
+        }
 
-        detailMatchViewModel.loadImage(events?.strAwayTeam)
+
 
         favoriteState()
 

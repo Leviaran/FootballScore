@@ -8,6 +8,7 @@ import com.example.ran.footballclubv2.common.domain.interactor.FootballUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,21 +26,31 @@ class DetailMatchViewModel @Inject constructor(
 
     fun response(): MutableLiveData<Response> = response
 
-    fun loadImage(name : String?) = loadImageData(footbalInteractor, name)
+    suspend fun loadImage(name : String?) = loadImageData(footbalInteractor, name)
 
-    fun loadImageData(footballUsecase : FootballUseCase,name : String?){
+    suspend fun loadImageData(footballUsecase : FootballUseCase, name : String?){
         Timber.e("coba")
-        compositeDisposable.add(
-                footballUsecase.getFootBallResponse().getTeamData(name)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe {response.value = Response.Loading}
-                        .subscribe({teamData -> run {
-                            Timber.e(" hasil adalah ${teamData.teams[0].strTeamBadge}")
-                            response.value = Response.Success(teamData)
-                        }})
-                        { response.value = Response.Error}
-        )
+
+        try {
+            val responseAPI = footballUsecase.getFootBallResponse().getTeamData(name)
+            response.value = Response.Success(responseAPI.await())
+        } catch (e : HttpException){
+            response.value = Response.Error
+        } catch (e : Exception){
+            response.value = Response.Error
+        }
+
+//        compositeDisposable.add(
+//                footballUsecase.getFootBallResponse().getTeamData(name)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .doOnSubscribe {response.value = Response.Loading}
+//                        .subscribe({teamData -> run {
+//                            Timber.e(" hasil adalah ${teamData.teams[0].strTeamBadge}")
+//                            response.value = Response.Success(teamData)
+//                        }})
+//                        { response.value = Response.Error}
+//        )
     }
 
 }

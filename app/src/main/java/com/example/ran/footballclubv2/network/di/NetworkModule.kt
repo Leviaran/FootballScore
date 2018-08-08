@@ -2,6 +2,7 @@ package com.example.ran.footballclubv2.network.di
 
 import com.example.ran.footballclubv2.network.API_BASE_URL
 import com.example.ran.footballclubv2.network.ApiService
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -20,7 +21,7 @@ class NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit {
         return Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(okHttpClient)
                 .build()

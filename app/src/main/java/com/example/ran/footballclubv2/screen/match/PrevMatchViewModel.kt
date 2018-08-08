@@ -15,6 +15,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -35,38 +36,60 @@ class PrevMatchViewModel @Inject constructor(
 
     fun response () : MutableLiveData<Response> = response
 
-    fun loadDataFootball(menu : String, context: Context?) = loadFootballEvent(footBallInteractor, menu, context)
+    suspend fun loadDataFootball(menu : String, context: Context?) = loadFootballEvent(footBallInteractor, menu, context)
 
-    fun loadFootballEvent(footballUseCase: FootballUseCase, menu : String, context: Context?){
+    suspend fun loadFootballEvent(footballUseCase: FootballUseCase, menu : String, context: Context?){
 
         when(menu) {
             PREV_MATCH -> {
-                compositeDisposable.add(
-                        footballUseCase.getFootBallResponse().getFootballEventPrev(ENGLISH_LEAGUE)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .doOnSubscribe { response.value = Response.Loading }
-                                .subscribe({footballEvent -> response.value = Response.Success(footballEvent)}){
-                                    throwable -> response.value = Response.Error
-                                }
-                )
+                try{
+                    val responsAPI = footballUseCase
+                            .getFootBallResponse()
+                            .getFootballEventPrev(ENGLISH_LEAGUE)
+                    response.value = Response.Success(responsAPI.await())
+                } catch (e : HttpException){
+                    Timber.e("Errornya adalah ${e.message()}")
+                    response.value = Response.Error
+                } catch (e : Throwable){
+                    Timber.e("Errornya adalah ${e.message}")
+                    response.value = Response.Error
+                }
+//                compositeDisposable.add(
+//                        footballUseCase.getFootBallResponse().getFootballEventPrev(ENGLISH_LEAGUE)
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                                .doOnSubscribe { response.value = Response.Loading }
+//                                .subscribe({footballEvent -> response.value = Response.Success(footballEvent)}){
+//                                    throwable -> response.value = Response.Error
+//                                }
+//                )
             }
             NEXT_MATCH -> {
-                compositeDisposable.add(
-                        footballUseCase.getFootBallResponse().getFootBallEventNext(ENGLISH_LEAGUE)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .doOnSubscribe { response.value = Response.Loading }
-                                .subscribe({footballEvent -> response.value = Response.Success(footballEvent)}){
-                                    throwable -> Timber.e("Errornya adalah ${throwable.message}")
-                                }
-                )
+                try{
+                    val responsAPI = footballUseCase
+                            .getFootBallResponse()
+                            .getFootBallEventNext(ENGLISH_LEAGUE)
+                    response.value = Response.Success(responsAPI.await())
+                } catch (e : HttpException){
+                    response.value = Response.Error
+                } catch (e : Throwable){
+                    response.value = Response.Error
+                }
+//                compositeDisposable.add(
+//                        footballUseCase.getFootBallResponse().getFootBallEventNext(ENGLISH_LEAGUE)
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                                .doOnSubscribe { response.value = Response.Loading }
+//                                .subscribe({footballEvent -> response.value = Response.Success(footballEvent)}){
+//                                    throwable -> Timber.e("Errornya adalah ${throwable.message}")
+//                                }
+//                )
             }
             else -> {
                 context?.database?.use {
                     val result = select(Events.TABLE_FAVORITE)
                     val favorite = result.parseList(classParser<Events>())
-                    Timber.e("hasil parsing, ${favorite.get(0).toString()}")
+
                     response.value = Response.Success(favorite)
                 }
             }

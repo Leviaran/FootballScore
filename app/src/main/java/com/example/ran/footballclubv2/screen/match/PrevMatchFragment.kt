@@ -25,6 +25,9 @@ import com.example.ran.footballclubv2.common.domain.model.Events
 import com.example.ran.footballclubv2.screen.detail_match.DETAIL_EVENT
 import com.example.ran.footballclubv2.screen.detail_match.DetailMatch
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
@@ -66,12 +69,17 @@ class PrevMatchFragment : Fragment() {
         prevMatchViewModel = ViewModelProviders.of(this, prevMatchViewModelFactory).get(PrevMatchViewModel::class.java)
 
         prevMatchViewModel.response().observe(this, Observer { response -> execute(response!!) })
-        prevMatchViewModel.loadDataFootball(menu, context)
+
+        launch(UI) {
+            prevMatchViewModel.loadDataFootball(menu, context)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        prevMatchViewModel.loadDataFootball(menu, context)
+        launch(UI) {
+            prevMatchViewModel.loadDataFootball(menu, context)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
