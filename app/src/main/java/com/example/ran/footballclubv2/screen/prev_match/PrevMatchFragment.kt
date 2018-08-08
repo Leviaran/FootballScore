@@ -14,11 +14,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.example.ran.footballclubv2.FAVORITE
 import com.example.ran.footballclubv2.MENU
+import com.example.ran.footballclubv2.PREV_MATCH
 import com.example.ran.footballclubv2.R
 import com.example.ran.footballclubv2.common.ViewModel.Response
 import com.example.ran.footballclubv2.common.domain.model.EventFootball
 import com.example.ran.footballclubv2.common.domain.model.Events
+import com.example.ran.footballclubv2.local.Favorite
 import com.example.ran.footballclubv2.screen.detail_match.DETAIL_EVENT
 import com.example.ran.footballclubv2.screen.detail_match.DetailMatch
 import dagger.android.support.AndroidSupportInjection
@@ -67,12 +70,12 @@ class PrevMatchFragment : Fragment() {
         prevMatchViewModel = ViewModelProviders.of(this, prevMatchViewModelFactory).get(PrevMatchViewModel::class.java)
 
         prevMatchViewModel.response().observe(this, Observer { response -> execute(response!!) })
-        prevMatchViewModel.loadDataFootball(menu)
+        prevMatchViewModel.loadDataFootball(menu, context)
     }
 
     override fun onResume() {
         super.onResume()
-        prevMatchViewModel.loadDataFootball(menu)
+        prevMatchViewModel.loadDataFootball(menu, context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -98,7 +101,7 @@ class PrevMatchFragment : Fragment() {
 
     private fun execute(response : Response) = when (response) {
         is Response.Loading -> renderLoadingState()
-        is Response.Success -> renderDataState(response.data as EventFootball)
+        is Response.Success -> renderDataState(response.data)
         is Response.Error -> renderErrorState()
     }
 
@@ -107,27 +110,49 @@ class PrevMatchFragment : Fragment() {
 
     }
 
-    private fun renderDataState(footballEvent : EventFootball?) {
+    private fun renderDataState(data : Any?) {
         Timber.e("Yesss")
+        val recycler = view?.findViewById<RecyclerView>(R.id.rv_prev_match)
+        if (menu == FAVORITE){
+            val footballEvent = data as List<Favorite>
+            recycler?.adapter = PrevMatchAdapter(footballEvent.toMutableList(), FAVORITE) {
+                val temp = it as Favorite
+                Toast.makeText(context, temp.dateEvent, Toast.LENGTH_SHORT).show()
 
+                val fragment = DetailMatch.newInstance()
+                val bundle = Bundle()
+                bundle.putParcelable(DETAIL_EVENT, temp)
+                fragment.arguments = bundle
+
+
+                fragmentManager?.beginTransaction()
+                        ?.replace(R.id.container, fragment, "Fragment")
+                        ?.addToBackStack("Fragment")
+                        ?.commit()
+            }
+        } else {
+            val footballEvent = data as EventFootball
+            recycler?.adapter = PrevMatchAdapter(footballEvent?.events?.toMutableList(), PREV_MATCH) {
+                val temp = it as Events
+                Toast.makeText(context, it.dateEvent, Toast.LENGTH_SHORT).show()
+
+                val fragment = DetailMatch.newInstance()
+                val bundle = Bundle()
+                bundle.putParcelable(DETAIL_EVENT, it)
+                fragment.arguments = bundle
+
+
+                fragmentManager?.beginTransaction()
+                        ?.replace(R.id.container, fragment, "Fragment")
+                        ?.addToBackStack("Fragment")
+                        ?.commit()
+            }
+        }
         progressBar.visibility = View.GONE
         val list = mutableListOf<Events>()
 
-        val recycler = view?.findViewById<RecyclerView>(R.id.rv_prev_match)
-        recycler?.adapter = PrevMatchAdapter(footballEvent?.events?.toMutableList() ?: list ) {
-            Toast.makeText(context, it.dateEvent, Toast.LENGTH_SHORT).show()
-
-            val fragment = DetailMatch.newInstance()
-            val bundle = Bundle()
-            bundle.putParcelable(DETAIL_EVENT, it)
-            fragment.arguments = bundle
 
 
-            fragmentManager?.beginTransaction()
-                    ?.replace(R.id.container, fragment, "Fragment")
-                    ?.addToBackStack("Fragment")
-                    ?.commit()
-        }
 
     }
 

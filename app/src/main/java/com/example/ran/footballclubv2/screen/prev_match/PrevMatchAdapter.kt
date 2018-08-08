@@ -4,14 +4,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.ran.footballclubv2.FAVORITE
 import com.example.ran.footballclubv2.R
 import com.example.ran.footballclubv2.common.domain.model.EventFootball
 import com.example.ran.footballclubv2.common.domain.model.Events
+import com.example.ran.footballclubv2.local.Favorite
 import com.example.ran.footballclubv2.utils.extensions.DateTransformator
 import org.jetbrains.anko.AnkoContext
 
 class PrevMatchAdapter
-    (var list : MutableList<Events>, var listener : (Events) -> Unit) : RecyclerView.Adapter<PrevMatchAdapter.PrevMatchAdapterViewHolder>() {
+    (var list : MutableList<Any>,var menu : String, var listener : (Any) -> Unit) : RecyclerView.Adapter<PrevMatchAdapter.PrevMatchAdapterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrevMatchAdapterViewHolder {
         return PrevMatchAdapterViewHolder(PrevMatchItemUI().createView(AnkoContext.create(parent.context,parent)))
@@ -42,19 +44,35 @@ class PrevMatchAdapter
 
         }
 
-        fun bindItem(items : Events, listener: (Events) -> Unit) {
+        fun bindItem(itemsAny : Any, listener: (Any) -> Unit) {
 
-            dateText.text = items.dateEvent?.DateTransformator()
+           if (menu == FAVORITE){
+               val items = itemsAny as Favorite
+               dateText.text = items.dateEvent?.DateTransformator()
 
-            homeMatch.text = items.strHomeTeam
-            homeScore.text = items.intHomeScore
+               homeMatch.text = items.strHomeTeam
+               homeScore.text = items.intHomeScore
 
-            awayMatch.text = items.strAwayTeam
-            awayScore.text = items.intAwayScore
+               awayMatch.text = items.strAwayTeam
+               awayScore.text = items.intAwayScore
 
-            view.setOnClickListener {
-                listener(items)
-            }
+               view.setOnClickListener {
+                   listener(items)
+               }
+           } else {
+               val items = itemsAny as Events
+               dateText.text = items.dateEvent?.DateTransformator()
+
+               homeMatch.text = items.strHomeTeam
+               homeScore.text = items.intHomeScore
+
+               awayMatch.text = items.strAwayTeam
+               awayScore.text = items.intAwayScore
+
+               view.setOnClickListener {
+                   listener(items)
+               }
+           }
 
         }
 

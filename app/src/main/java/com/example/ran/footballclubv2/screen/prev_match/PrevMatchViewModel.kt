@@ -2,13 +2,19 @@ package com.example.ran.footballclubv2.screen.prev_match
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
+import com.example.ran.footballclubv2.NEXT_MATCH
 import com.example.ran.footballclubv2.PREV_MATCH
 import com.example.ran.footballclubv2.common.ViewModel.Response
 import com.example.ran.footballclubv2.common.domain.interactor.FootaballInteractor
 import com.example.ran.footballclubv2.common.domain.interactor.FootballUseCase
+import com.example.ran.footballclubv2.local.Favorite
+import com.example.ran.footballclubv2.local.database
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,9 +35,9 @@ class PrevMatchViewModel @Inject constructor(
 
     fun response () : MutableLiveData<Response> = response
 
-    fun loadDataFootball(menu : String) = loadFootballEvent(footBallInteractor, menu)
+    fun loadDataFootball(menu : String, context: Context?) = loadFootballEvent(footBallInteractor, menu, context)
 
-    fun loadFootballEvent(footballUseCase: FootballUseCase, menu : String){
+    fun loadFootballEvent(footballUseCase: FootballUseCase, menu : String, context: Context?){
 
         when(menu) {
             PREV_MATCH -> {
@@ -45,7 +51,7 @@ class PrevMatchViewModel @Inject constructor(
                                 }
                 )
             }
-            else -> {
+            NEXT_MATCH -> {
                 compositeDisposable.add(
                         footballUseCase.getFootBallResponse().getFootBallEventNext(ENGLISH_LEAGUE)
                                 .subscribeOn(Schedulers.io())
@@ -55,6 +61,13 @@ class PrevMatchViewModel @Inject constructor(
                                     throwable -> Timber.e("Errornya adalah ${throwable.message}")
                                 }
                 )
+            }
+            else -> {
+                context?.database?.use {
+                    val result = select(Favorite.TABLE_FAVORITE)
+                    val favorite = result.parseList(classParser<Favorite>())
+                    response.value = Response.Success(favorite)
+                }
             }
         }
 

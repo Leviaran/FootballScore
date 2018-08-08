@@ -1,10 +1,14 @@
 package com.example.ran.footballclubv2.local
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Favorite(
+        val id : Long?,
         val idEvent : String?,
-        val strEvent : String?,
+//        val strEvent : String?,
 
         val strHomeTeam : String?,
         val strAwayTeam : String?,
@@ -12,11 +16,11 @@ data class Favorite(
         val intHomeScore : String?,
         val intAwayScore : String?,
 
-        val intHomeShots : Int?,
-        val intAwayShots : Int?,
+        val intHomeShots : String?,
+        val intAwayShots : String?,
 
         val dateEvent : String?,
-        val strDate : String?,
+//        val strDate : String?,
 
         val strHomeGoalDetails : String?,
         val strHomeLineupGoalkeeper : String?,
@@ -37,9 +41,10 @@ data class Favorite(
         var strTeamHomeBadge : String,
         var strTeamAwayBadge : String
 
-){
+) : Parcelable{
     companion object {
         const val TABLE_FAVORITE: String = "TABLE_FAVORITE"
+
         const val ID: String = "ID_"
         const val ID_EVENT : String = "ID_EVENT"
 //        const val EVENT : String = "EVENT"
@@ -54,7 +59,7 @@ data class Favorite(
         const val AWAY_SHOT : String = "AWAY_SHOT"
 
         const val DATE_EVENT : String = "DATE_EVENT"
-        const val DATE : String = "DATE"
+//        const val DATE : String = "DATE"
 
         const val HOME_GOAL_DETAIL : String = "HOME_GOAL_DETAIL"
         const val HOME_LINEUP_GOALKEEPER : String  = "HOME_LINEUP_GOALKEEPER"

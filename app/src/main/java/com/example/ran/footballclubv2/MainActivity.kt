@@ -12,6 +12,7 @@ import timber.log.Timber
 const val BACK_STACK_ROOT_TAG = "root_fragment"
 const val PREV_MATCH = "prev_match"
 const val NEXT_MATCH = "next_match"
+const val FAVORITE = "favorite"
 const val MENU = "menu"
 
 class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
@@ -29,6 +30,12 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
                     item.isCheckable = true
                     val prevMatchFragment = PrevMatchFragment.newInstance()
                     openFragment(prevMatchFragment, NEXT_MATCH)
+                    return@OnNavigationItemSelectedListener  true
+                }
+                R.id.favorites -> {
+                    item.isCheckable = true
+                    val prevMatchFragment = PrevMatchFragment.newInstance()
+                    openFragment(prevMatchFragment, FAVORITE)
                     return@OnNavigationItemSelectedListener  true
                 }
             }
