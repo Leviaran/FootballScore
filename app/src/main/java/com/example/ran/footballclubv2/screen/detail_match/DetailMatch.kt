@@ -207,7 +207,7 @@ class DetailMatch : Fragment() {
 
                             textView {
                                 id = R.id.tv_vs_item
-                                text = "VS"
+                                text = context.getString(R.string.vs)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)
 
@@ -256,7 +256,7 @@ class DetailMatch : Fragment() {
                             }.lparams(dip(100), wrapContent){weight = 2f}
 
                             textView {
-                                text = "Goals"
+                                text = context.getString(R.string.goals)
                                 textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)
@@ -285,7 +285,7 @@ class DetailMatch : Fragment() {
                             }.lparams(dip(100), wrapContent){weight = 2f}
 
                             textView {
-                                text = "Shots"
+                                text = context.getString(R.string.shots)
                                 textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)
@@ -306,7 +306,7 @@ class DetailMatch : Fragment() {
 
                         ///////////////////////////
                         textView {
-                            text = "Lineups"
+                            text = context.getString(R.string.lineup)
                             gravity = Gravity.CENTER_HORIZONTAL
                         }.setTypeface(textView().typeface, Typeface.BOLD)
 
@@ -324,7 +324,7 @@ class DetailMatch : Fragment() {
                             }.lparams(dip(100), wrapContent){weight = 2f}
 
                             textView {
-                                text = "Goal Keeper"
+                                text = context.getString(R.string.goalkeeper)
                                 textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)
@@ -355,7 +355,7 @@ class DetailMatch : Fragment() {
                             }.lparams(dip(100), wrapContent){weight = 2f}
 
                             textView {
-                                text = "Defence"
+                                text = context.getString(R.string.defence)
                                 textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)
@@ -384,7 +384,7 @@ class DetailMatch : Fragment() {
                             }.lparams(dip(100), wrapContent){weight = 2f}
 
                             textView {
-                                text = "Midfield"
+                                text = context.getString(R.string.midfield)
                                 textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)
@@ -413,7 +413,7 @@ class DetailMatch : Fragment() {
                             }.lparams(dip(100), wrapContent){weight = 2f}
 
                             textView {
-                                text = "Forward"
+                                text = context.getString(R.string.forward)
                                 textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)
@@ -442,7 +442,7 @@ class DetailMatch : Fragment() {
                             }.lparams(dip(100), wrapContent){weight = 2f}
 
                             textView {
-                                text = "Subtituties"
+                                text = context.getString(R.string.subtituties)
                                 textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 setTypeface(this.typeface, Typeface.BOLD)

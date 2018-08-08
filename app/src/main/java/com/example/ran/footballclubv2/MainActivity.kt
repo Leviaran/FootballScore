@@ -5,9 +5,8 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import com.example.ran.footballclubv2.screen.prev_match.PrevMatchFragment
+import com.example.ran.footballclubv2.screen.match.PrevMatchFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 
 const val BACK_STACK_ROOT_TAG = "root_fragment"
 const val PREV_MATCH = "prev_match"

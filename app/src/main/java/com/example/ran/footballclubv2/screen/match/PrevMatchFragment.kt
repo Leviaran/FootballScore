@@ -1,4 +1,4 @@
-package com.example.ran.footballclubv2.screen.prev_match
+package com.example.ran.footballclubv2.screen.match
 
 
 import android.arch.lifecycle.Observer

@@ -1,7 +1,7 @@
-package com.example.ran.footballclubv2.screen.prev_match.di
+package com.example.ran.footballclubv2.screen.match.di
 
 import com.example.ran.footballclubv2.common.domain.interactor.FootaballInteractor
-import com.example.ran.footballclubv2.screen.prev_match.PrevMatchViewModelFactory
+import com.example.ran.footballclubv2.screen.match.PrevMatchViewModelFactory
 import dagger.Module
 import dagger.Provides
 

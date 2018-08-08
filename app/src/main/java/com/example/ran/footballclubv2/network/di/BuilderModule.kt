@@ -2,8 +2,8 @@ package com.example.ran.footballclubv2.network.di
 
 import com.example.ran.footballclubv2.screen.detail_match.DetailMatch
 import com.example.ran.footballclubv2.screen.detail_match.di.DetailMatchModule
-import com.example.ran.footballclubv2.screen.prev_match.PrevMatchFragment
-import com.example.ran.footballclubv2.screen.prev_match.di.PrevMatchModule
+import com.example.ran.footballclubv2.screen.match.PrevMatchFragment
+import com.example.ran.footballclubv2.screen.match.di.PrevMatchModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

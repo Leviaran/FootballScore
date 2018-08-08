@@ -1,10 +1,7 @@
-package com.example.ran.footballclubv2.screen.prev_match
+package com.example.ran.footballclubv2.screen.match
 
-import android.graphics.Color
 import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
-import android.text.InputFilter
-import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +26,7 @@ class PrevMatchItemUI : AnkoComponent<ViewGroup> {
 
                 textView {
                     id = R.id.date_match_item
-                    text = "Sen, 05 Agus 2018"
+                    text = context.getString(R.string.date_example)
                     textColor = ContextCompat.getColor(context,R.color.colorPrimary)
                     gravity = Gravity.CENTER_HORIZONTAL
                 }.setTypeface(textView().typeface, Typeface.BOLD)
@@ -40,7 +37,7 @@ class PrevMatchItemUI : AnkoComponent<ViewGroup> {
 
                     textView {
                         id = R.id.home_match_item
-                        text = "Arsenal"
+                        text = context.getString(R.string.club_example)
                         gravity = Gravity.START
 //                        filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
 //                        ellipsize = TextUtils.TruncateAt.START
@@ -55,7 +52,7 @@ class PrevMatchItemUI : AnkoComponent<ViewGroup> {
 
                     textView {
                         id = R.id.tv_vs_item
-                        text = "vs"
+                        text = context.getString(R.string.vs)
                         gravity = Gravity.CENTER_HORIZONTAL
                     }.lparams(){centerHorizontally()}
 
@@ -68,7 +65,7 @@ class PrevMatchItemUI : AnkoComponent<ViewGroup> {
 
                     textView {
                         id = R.id.away_match_item
-                        text = "Arsenal"
+                        text = context.getString(R.string.club_example)
 //                        filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
 //                        this.ellipsize = TextUtils.TruncateAt.MIDDLE
 

@@ -2,7 +2,6 @@ package com.example.ran.footballclubv2.network.di
 
 import android.app.Application
 import com.example.ran.footballclubv2.App
-import com.example.ran.footballclubv2.screen.prev_match.di.PrevMatchModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule

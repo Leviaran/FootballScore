@@ -1,10 +1,9 @@
-package com.example.ran.footballclubv2.screen.prev_match
+package com.example.ran.footballclubv2.screen.match
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.ran.footballclubv2.FAVORITE
 import com.example.ran.footballclubv2.R
 import com.example.ran.footballclubv2.common.domain.model.Events
 import com.example.ran.footballclubv2.utils.extensions.DateTransformator
