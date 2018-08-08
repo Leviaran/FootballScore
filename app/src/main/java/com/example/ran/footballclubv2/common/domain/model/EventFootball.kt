@@ -3,8 +3,6 @@ package com.example.ran.footballclubv2.common.domain.model
 import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
-import java.util.*
 
 
 data class EventFootball (
@@ -14,7 +12,6 @@ data class EventFootball (
 data class Events (
         val id : Long?,
         @Json(name = "idEvent") val idEvent : String?,
-//        @Json(name = "strEvent") val strEvent : String?,
 
         @Json(name = "strHomeTeam") val strHomeTeam : String?,
         @Json(name = "strAwayTeam") val strAwayTeam : String?,
@@ -26,7 +23,6 @@ data class Events (
         @Json(name = "intAwayShots") val intAwayShots : String?,
 
         @Json(name = "dateEvent") val dateEvent : String?,
-//        @Json(name = "strDate") val strDate : String?,
 
         @Json(name = "strHomeGoalDetails") val strHomeGoalDetails : String?,
         @Json(name = "strHomeLineupGoalkeeper") val strHomeLineupGoalkeeper : String?,
@@ -34,7 +30,6 @@ data class Events (
         @Json(name = "strHomeLineupMidfield") val strHomeLineupMidfield : String?,
         @Json(name = "strHomeLineupForward") val strHomeLineupForward : String?,
         @Json(name = "strHomeLineupSubstitutes") val strHomeLineupSubstitutes : String?,
-//        @Json(name = "strHomeFormation") val strHomeFormation : String?,
 
         @Json(name = "strAwayGoalDetails") val strAwayGoalDetails : String?,
         @Json(name = "strAwayLineupGoalkeeper") val strAwayLineupGoalkeeper : String?,
@@ -42,7 +37,6 @@ data class Events (
         @Json(name = "strAwayLineupMidfield") val strAwayLineupMidfield : String?,
         @Json(name = "strAwayLineupForward") val strAwayLineupForward : String?,
         @Json(name = "strAwayLineupSubstitutes") val strAwayLineupSubstitutes : String?,
-//        @Json(name = "strAwayFormation") val strAwayFormation : String?,
 
         var strTeamHomeBadge : String?,
         var strTeamAwayBadge : String?
@@ -53,7 +47,6 @@ data class Events (
 
         const val ID: String = "ID_"
         const val ID_EVENT : String = "ID_EVENT"
-//        const val EVENT : String = "EVENT"
 
         const val HOME_TEAM : String = "HOME_TEAM"
         const val AWAY_TEAM : String = "AWAY_TEAM"
@@ -65,7 +58,6 @@ data class Events (
         const val AWAY_SHOT : String = "AWAY_SHOT"
 
         const val DATE_EVENT : String = "DATE_EVENT"
-//        const val DATE : String = "DATE"
 
         const val HOME_GOAL_DETAIL : String = "HOME_GOAL_DETAIL"
         const val HOME_LINEUP_GOALKEEPER : String  = "HOME_LINEUP_GOALKEEPER"
@@ -73,7 +65,6 @@ data class Events (
         const val HOME_LINEUP_MIDFIELD : String = "HOME_LINEUP_MIDFIELD"
         const val HOME_LINEUP_FORWARD : String = "HOME_LINEUP_FORWARD"
         const val HOME_LINEUP_SUBTITUTIES : String = "HOME_LINEUP_SUBTITUTIES"
-//        const val HOME_FORMATION : String = "HOME_FORMATION"
 
         const val AWAY_GOAL_DETAIL : String = "AWAY_GOAL_DETAIL"
         const val AWAY_LINEUP_GOALKEEPER : String = "AWAY_LINEUP_GOALKEEPER"
@@ -81,7 +72,6 @@ data class Events (
         const val AWAY_LINEUP_MIDFIELD : String = "AWAY_LINEUP_MIDFIELD"
         const val AWAY_LINEUP_FORWARD : String= "AWAY_LINEUP_FORWARD"
         const val AWAY_LINEUP_SUBTITUTIES : String= "AWAY_LINEUP_SUBTITUTIES"
-//        const val AWAY_FORMATION : String = "AWAY_FORMATION"
 
         const val HOME_BADGE : String = "HOME_BADGE"
         const val AWAY_BADGE : String = "AWAY_BADGE"

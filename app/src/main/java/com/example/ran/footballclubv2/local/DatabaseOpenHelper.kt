@@ -14,14 +14,12 @@ class DatabaseOpenHelper(context: Context)
 
         @Synchronized
         fun getInstances(context: Context) : DatabaseOpenHelper {
-            when {
-                instance == null -> {
+
+           return when (instance) {
+                null -> {
                     instance = DatabaseOpenHelper(context)
-                    return instance as DatabaseOpenHelper
-                }
-                else -> {
-                    return instance as DatabaseOpenHelper
-                }
+                    instance as DatabaseOpenHelper
+                } else -> instance as DatabaseOpenHelper
             }
         }
     }
