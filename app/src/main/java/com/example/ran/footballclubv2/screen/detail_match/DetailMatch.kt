@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -22,12 +19,16 @@ import com.example.ran.footballclubv2.common.ViewModel.Response
 import com.example.ran.footballclubv2.common.domain.model.EventFootball
 import com.example.ran.footballclubv2.common.domain.model.Events
 import com.example.ran.footballclubv2.common.domain.model.TeamDetail
+import com.example.ran.footballclubv2.local.Favorite
 import com.example.ran.footballclubv2.screen.prev_match.PrevMatchAdapter
 import com.example.ran.footballclubv2.screen.prev_match.PrevMatchFragment
 import com.example.ran.footballclubv2.utils.extensions.DateTransformator
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.notification_template_lines_media.view.*
+import com.example.ran.footballclubv2.local.database
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.*
+import org.jetbrains.anko.db.*
 import org.jetbrains.anko.support.v4.UI
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,6 +40,7 @@ class DetailMatch : Fragment() {
 
     companion object {
         fun newInstance(): DetailMatch = DetailMatch()
+
     }
 
     @Inject
@@ -53,6 +55,7 @@ class DetailMatch : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         val bundle = arguments
         when {
@@ -83,7 +86,19 @@ class DetailMatch : Fragment() {
         if (listImage.size>1)
             Glide.with(this).load(listImage[1]).into(imageViewAway)
 
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_favorite, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.favorites_detail -> {
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onAttach(context: Context?) {
@@ -425,5 +440,41 @@ class DetailMatch : Fragment() {
                 }
             }
         }.view
+    }
+
+    private fun addToFavorite(){
+        try {
+            context?.database?.use {
+                insert(
+                        Favorite.TABLE_FAVORITE,
+                        Favorite.ID_EVENT to events?.idEvent,
+                        Favorite.HOME_TEAM to events?.strHomeTeam,
+                        Favorite.AWAY_TEAM to events?.strAwayTeam,
+                        Favorite.HOME_SCORE to events?.intHomeScore,
+                        Favorite.AWAY_SCORE to events?.intAwayScore,
+                        Favorite.HOME_SHOT to events?.intHomeShots,
+                        Favorite.AWAY_SHOT to events?.intAwayShots,
+                        Favorite.DATE_EVENT to events?.dateEvent,
+                        Favorite.HOME_GOAL_DETAIL to events?.strHomeGoalDetails,
+                        Favorite.HOME_LINEUP_GOALKEEPER to events?.strHomeLineupGoalkeeper,
+                        Favorite.HOME_LINEUP_DEFENCE to events?.strHomeLineupDefense,
+                        Favorite.HOME_LINEUP_MIDFIELD to events?.strHomeLineupMidfield,
+                        Favorite.HOME_LINEUP_FORWARD to events?.strHomeLineupForward,
+                        Favorite.HOME_LINEUP_SUBTITUTIES to events?.strHomeLineupSubstitutes,
+                        Favorite.HOME_FORMATION to events?.strHomeFormation,
+                        Favorite.HOME_BADGE to events?.strTeamHomeBadge,
+                        Favorite.AWAY_GOAL_DETAIL to events?.strAwayGoalDetails,
+                        Favorite.AWAY_LINEUP_GOALKEEPER to events?.strAwayLineupGoalkeeper,
+                        Favorite.AWAY_LINEUP_DEFENCE to events?.strAwayLineupDefense,
+                        Favorite.AWAY_LINEUP_MIDFIELD to events?.strAwayLineupMidfield,
+                        Favorite.AWAY_LINEUP_FORWARD to events?.strAwayLineupForward,
+                        Favorite.AWAY_LINEUP_SUBTITUTIES to events?.strAwayLineupSubstitutes,
+                        Favorite.AWAY_FORMATION to events?.strAwayFormation,
+                        Favorite.AWAY_BADGE to events?.strTeamAwayBadge
+                )
+
+            }
+            snackbar()
+        }
     }
 }

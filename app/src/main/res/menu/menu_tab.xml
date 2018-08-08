@@ -12,4 +12,9 @@
         android:icon="@drawable/ic_action_next_match"
         android:title="@string/next_match" />
 
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/ic_favorites"
+        android:title="@string/favorites"/>
+
 </menu>

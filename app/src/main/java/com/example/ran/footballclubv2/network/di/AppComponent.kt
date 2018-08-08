@@ -9,11 +9,16 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(NetworkModule::class,
-        FootballInteractorModule::class,
-        BuilderModule::class,
-        AndroidSupportInjectionModule::class))
 
+//@Component(modules = arrayOf(NetworkModule::class,
+//        FootballInteractorModule::class,
+//        BuilderModule::class,
+//        AndroidSupportInjectionModule::class))
+
+@Component(modules = [NetworkModule::class,
+    FootballInteractorModule::class,
+    BuilderModule::class,
+    AndroidSupportInjectionModule::class])
 interface AppComponent  {
 
 
